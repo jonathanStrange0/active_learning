@@ -21,12 +21,15 @@ def test_knowledge():
 def manage_settings():
 	subject_form = AddSubjectForm()
 	remove_subject_form = RemoveSubjectForm()
+	remove_subject_form.subject_text.query = Subject.query.all()
+	# print(remove_subject_form.subject_text.data.id)
 	if request.method == 'POST' and subject_form.validate_on_submit():
 		db.session.add(Subject(subject = subject_form.subject_field.data))
 		db.session.commit()
 		return(redirect(url_for('manage_settings')))
 	if request.method == 'POST' and remove_subject_form.validate_on_submit():
-		db.session.delete(Subject.query.filter_by(subject = remove_subject_form.subject_text.data))
+		print(remove_subject_form.subject_text.data)
+		db.session.delete(remove_subject_form.subject_text.data)
 		db.session.commit()
 		return(redirect(url_for('manage_settings')))
 

@@ -4,6 +4,7 @@ from wtforms import SelectField, SubmitField, StringField, FloatField, BooleanFi
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Optional
 from app import db
+from app.models import Subject
 
 class AddSubjectForm(FlaskForm):
 	subject_field = StringField('New Subject', validators=[DataRequired()])
@@ -12,3 +13,7 @@ class AddSubjectForm(FlaskForm):
 class RemoveSubjectForm(FlaskForm):
 	subject_text = QuerySelectField(get_label='subject')
 	subject_submit = SubmitField('Delete Study Subject')
+
+def subjects():
+    return Subject.query.all()
+
