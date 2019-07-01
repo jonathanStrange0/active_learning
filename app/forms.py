@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired, Optional
 from app import db
 
 class AddSubjectForm(FlaskForm):
-	subject_field = StringField('New Subject')
+	subject_field = StringField('New Subject', validators=[DataRequired()])
 	subject_submit = SubmitField('Add Study Subject')
 
 class RemoveSubjectForm(FlaskForm):

@@ -25,6 +25,10 @@ def manage_settings():
 		db.session.add(Subject(subject = subject_form.subject_field.data))
 		db.session.commit()
 		return(redirect(url_for('manage_settings')))
+	if request.method == 'POST' and remove_subject_form.validate_on_submit():
+		db.session.delete(Subject.query.filter_by(subject = remove_subject_form.subject_text.data))
+		db.session.commit()
+		return(redirect(url_for('manage_settings')))
 
 	if len(Subject.query.all()) > 0:
 		remove_subject_form.subject_text.query = Subject.query.all()
