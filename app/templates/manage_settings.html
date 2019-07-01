@@ -1,9 +1,22 @@
 {% extends "base.html" %}
-{% block content %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
 
 <!-- fill out content soon -->
 <h1 align="center">Settings adjustmets here</h1>
-    
+   <div class="row" align="center">
+        <div class="col-md-4">
+            {{ wtf.quick_form(add_sub_form) }}
+        </div>
+    </div>
+    {% if remove_sub_form %}
+    <div class="row" align="center">
+        <div class="col-md-4">
+            {{ wtf.quick_form(remove_sub_form) }}
+        </div>
+    </div>
+    {% endif %}
 
 {% endblock %}
 
