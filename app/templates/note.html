@@ -4,11 +4,19 @@
 {% block app_content %}
 
 <!-- fill out content soon -->
-<h1 align="center">Settings Adjustments here</h1>
-   <div class="row" align="center">
-        <div class="col-md-4">
-            {{ wtf.quick_form(note_form) }}
-        </div>
+<h1 align="center">{{session.subject.first().subject}}</h1>
+<div class="row" align="center">
+    <div class="col-md-4">
+        {{ wtf.quick_form(note_form) }}
     </div>
+    
+    <br>
+    
+    <div class="row" align="center">
+        <p align="center">
+	   		<a class="btn btn-lg btn-default" id="doneButton" href="{{url_for('test_knowledge')}}">Done Learning</a>
+	  	</p>
+	</div>
+</div>
 
 {% endblock %}

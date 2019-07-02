@@ -14,7 +14,6 @@ class RemoveSubjectForm(FlaskForm):
 	subject_text = QuerySelectField(get_label='subject')
 	subject_submit = SubmitField('Delete Study Subject')
 
-
 class NoteForm(FlaskForm):
 	question_field = StringField('Question', validators=[DataRequired()])
 	answer_field = StringField('Answer', validators=[DataRequired()])

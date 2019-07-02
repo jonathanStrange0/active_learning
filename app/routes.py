@@ -3,6 +3,7 @@ from flask import render_template, url_for, redirect, request
 from app.forms import AddSubjectForm, RemoveSubjectForm, NoteForm
 import random
 from app.models import Subject, Note, Answer, LearningSession
+from datetime import datetime
 
 @app.route('/')
 @app.route('/index')
@@ -11,21 +12,15 @@ def index():
 
 @app.route('/learning', methods=['GET', 'POST'])
 def learn_something():
-	# learn_w_notes_form = LearnWithNotesForm()
-	# learn_lazy_form = LearnLazyForm()
-	# if request.method == 'POST' and learn_w_notes_form.start_leaning_with_notes.validate(learn_w_notes_form):
-	# 	print("with notes button pressed")
-	# if request.method == 'POST' and learn_lazy_form.start_leaning_without_notes.validate(learn_lazy_form):
-	# 	print("without notes button pressed")
 	return(render_template('learn_something.html',\
-		title='Let Me Tell You What to Learn Today!'))#,\
-		# wn_form=learn_w_notes_form,\
-		# won_form=learn_lazy_form))
+		title='Let Me Tell You What to Learn Today!'))
 
-@app.route('/note/<session>', methods=['GET', 'POST'])
-def note(session):
+@app.route('/note/', methods=['GET', 'POST'])
+def note():
+	session = LearningSession(start_time=datetime.now())
+	session.subject.append(subject_selector())
 	note_form = NoteForm()
-	return(render_template('note.html', title='Add Note', note_form=note_form))
+	return(render_template('note.html', title='Add Note', note_form=note_form, session=session))
 
 
 @app.route('/test')
@@ -63,11 +58,26 @@ def manage_settings():
 
 
 ###########################################
-#####   HELPER FUNCTIONS ##################
+#########  HELPER FUNCTIONS  ##############
 ###########################################
 
-def subject_selector():
+def suggest_subject():
 	all_subjects = Subject.query.all()
 	selection_idx = random.randint(0,len(all_subjects) - 1)
 	selected_subject = all_subjects[selection_idx]
-	
+	return(selected_subject)
+
+def verify_subject(subject):
+	try:
+		last_two_learning_sessions = LearningSession.query.all()[-2:]
+		last_two_subjects = [last_two_learning_sessions[0].subject.all()[0], last_two_learning_sessions[1].subject.all()[0]]
+		return([subject] * 2 == last_two_subjects)
+	except:
+		return False
+
+def subject_selector():
+	subject = suggest_subject()
+	while verify_subject(subject):
+		subject = suggest_subject()
+	return(subject)
+
