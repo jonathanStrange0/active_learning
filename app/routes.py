@@ -2,6 +2,7 @@ from app import app, db
 from flask import render_template, url_for, redirect, request
 from app.forms import AddSubjectForm, RemoveSubjectForm
 from app.models import Subject
+import random
 
 @app.route('/')
 @app.route('/index')
@@ -35,6 +36,12 @@ def manage_settings():
 
 	if len(Subject.query.all()) > 0:
 		remove_subject_form.subject_text.query = Subject.query.all()
-		return(render_template('manage_settings.html', title='Make adjustements to your course', add_sub_form=subject_form, remove_sub_form=remove_subject_form))
+		return(render_template('manage_settings.html', \
+			title='Make adjustements to your course', \
+			add_sub_form=subject_form, \
+			remove_sub_form=remove_subject_form))
 	else:
-		return(render_template('manage_settings.html', title='Make adjustements to your course', add_sub_form=subject_form, remove_sub_form=None))
+		return(render_template('manage_settings.html', \
+			title='Make adjustements to your course', \
+			add_sub_form=subject_form, \
+			remove_sub_form=None))
