@@ -4,6 +4,7 @@ from app.forms import AddSubjectForm, RemoveSubjectForm, NoteForm
 import random
 from app.models import Subject, Note, Answer, LearningSession
 from datetime import datetime
+from app.notes import note_test
 
 @app.route('/')
 @app.route('/index')
@@ -15,12 +16,14 @@ def learn_something():
 	return(render_template('learn_something.html',\
 		title='Let Me Tell You What to Learn Today!'))
 
-@app.route('/note/', methods=['GET', 'POST'])
+@app.route('/note', methods=['GET', 'POST'])
 def note():
-	session = LearningSession(start_time=datetime.now())
-	session.subject.append(subject_selector())
-	note_form = NoteForm()
-	return(render_template('note.html', title='Add Note', note_form=note_form, session=session))
+	# session = LearningSession(start_time=datetime.now())
+	# session.subject.append(subject_selector())
+	# db.session.commit()
+	# note_form = NoteForm()
+	# return(render_template('note.html', title='Add Note', note_form=note_form, session=session))
+	return note_test()
 
 
 @app.route('/test')
