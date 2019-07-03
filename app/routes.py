@@ -4,7 +4,7 @@ from app.forms import AddSubjectForm, RemoveSubjectForm, NoteForm
 import random
 from app.models import Subject, Note, Answer, LearningSession
 from datetime import datetime
-from app.notes import note_test
+from app.note_controller import note_controller
 
 @app.route('/')
 @app.route('/index')
@@ -18,12 +18,24 @@ def learn_something():
 
 @app.route('/note', methods=['GET', 'POST'])
 def note():
-	# session = LearningSession(start_time=datetime.now())
-	# session.subject.append(subject_selector())
-	# db.session.commit()
-	# note_form = NoteForm()
-	# return(render_template('note.html', title='Add Note', note_form=note_form, session=session))
-	return note_test()
+	if request.args.get('learning_session'):
+		print(request.args.get('learning_session')) ###################################### this is a problem!!!
+		session = LearningSession.query.filter_by(id = request.args.get('learning_session')).first()
+
+	else:
+		session = LearningSession(start_time=datetime.now())
+		session.subject.append(subject_selector())
+		db.session.commit()
+		print(session)
+	return note_controller(learning_session_id = request.args.get('learning_session'))
+
+@app.route('/_close_learning_session')
+def _close_learning_session():
+	if request.args.get('learning_session'):
+		session = LearningSession.query.filter_by(id = request.args.get('learning_session')).first()
+		session.end_time = datetime.now()
+		db.session.commit()
+	return(redirect(url_for('index')))
 
 
 @app.route('/test')

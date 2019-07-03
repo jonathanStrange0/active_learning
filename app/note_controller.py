@@ -5,11 +5,18 @@ import random
 from app import db
 from app.forms import NoteForm
 
-def note_test():
-	session = LearningSession(start_time=datetime.now())
-	session.subject.append(subject_selector())
-	db.session.commit()
+def note_controller(learning_session_id=None):
+
 	note_form = NoteForm()
+	if request.method == 'POST' and note_form.validate_on_submit():
+		print()
+		note = Note(question = note_form.question_field.data)
+		ans = Answer(answer = note_form.answer_field.data)
+		note.answer.append(ans)
+		session.notes.append(note)
+		db.session.commit()
+		return(redirect(url_for('note', learning_session=session.id)))
+
 	return(render_template('note.html', title='Add Note', note_form=note_form, session=session))
 
 def suggest_subject():

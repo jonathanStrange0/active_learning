@@ -14,7 +14,7 @@
     
     <div class="row" align="center">
         <p align="center">
-	   		<a class="btn btn-lg btn-default" id="doneButton" href="{{url_for('test_knowledge')}}">Done Learning</a>
+	   		<a class="btn btn-lg btn-default" id="doneButton" href="{{url_for('_close_learning_session', 'learning_session' = {{session.id}} )}}">Done Learning</a>
 	  	</p>
 	</div>
 </div>
