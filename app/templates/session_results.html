@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+
+<!-- fill out content soon -->
+<h1 align="center">Tell you what to learn</h1>
+  <p align="center">
+    <a class="btn btn-lg btn-default" id="learnWithNotesButton" href="{{url_for('note')}}">Take Notes</a>
+  </p>
+  <p align="center">
+    <a class="btn btn-lg btn-default" id="lazyLearnButton" href="{{url_for('test_knowledge')}}">No Notes for Me!</a>
+  </p>
+{% endblock %}

@@ -4,7 +4,7 @@ from app.forms import AddSubjectForm, RemoveSubjectForm, NoteForm
 import random
 from app.models import Subject, Note, Answer, LearningSession
 from datetime import datetime
-from app.note_controller import note_controller
+from app.note_controller import note_controller, subject_selector
 
 @app.route('/')
 @app.route('/index')
@@ -18,25 +18,31 @@ def learn_something():
 
 @app.route('/note', methods=['GET', 'POST'])
 def note():
-	if request.args.get('learning_session'):
-		print(request.args.get('learning_session')) ###################################### this is a problem!!!
-		session = LearningSession.query.filter_by(id = request.args.get('learning_session')).first()
-
+	if request.args.get('learning_session_id'):
+		print('this is the learning ID ' + request.args.get('learning_session_id')) 
+		session = LearningSession.query.filter_by(id = request.args.get('learning_session_id')).first()
+		return note_controller(learning_session_id = request.args.get('learning_session_id'))
 	else:
 		session = LearningSession(start_time=datetime.now())
 		session.subject.append(subject_selector())
 		db.session.commit()
 		print(session)
-	return note_controller(learning_session_id = request.args.get('learning_session'))
+		return note_controller()
+	
 
 @app.route('/_close_learning_session')
 def _close_learning_session():
-	if request.args.get('learning_session'):
-		session = LearningSession.query.filter_by(id = request.args.get('learning_session')).first()
+	if request.args.get('learning_session_id'):
+		session = LearningSession.query.filter_by(id = request.args.get('learning_session_id')).first()
 		session.end_time = datetime.now()
 		db.session.commit()
-	return(redirect(url_for('index')))
+	return(redirect(url_for('session_results', learning_session_id=session.id)))
 
+@app.route('/session_results')
+def session_results():
+
+
+	return 'donezore'
 
 @app.route('/test')
 def test_knowledge():
@@ -76,23 +82,23 @@ def manage_settings():
 #########  HELPER FUNCTIONS  ##############
 ###########################################
 
-def suggest_subject():
-	all_subjects = Subject.query.all()
-	selection_idx = random.randint(0,len(all_subjects) - 1)
-	selected_subject = all_subjects[selection_idx]
-	return(selected_subject)
+# def suggest_subject():
+# 	all_subjects = Subject.query.all()
+# 	selection_idx = random.randint(0,len(all_subjects) - 1)
+# 	selected_subject = all_subjects[selection_idx]
+# 	return(selected_subject)
 
-def verify_subject(subject):
-	try:
-		last_two_learning_sessions = LearningSession.query.all()[-2:]
-		last_two_subjects = [last_two_learning_sessions[0].subject.all()[0], last_two_learning_sessions[1].subject.all()[0]]
-		return([subject] * 2 == last_two_subjects)
-	except:
-		return False
+# def verify_subject(subject):
+# 	try:
+# 		last_two_learning_sessions = LearningSession.query.all()[-2:]
+# 		last_two_subjects = [last_two_learning_sessions[0].subject.all()[0], last_two_learning_sessions[1].subject.all()[0]]
+# 		return([subject] * 2 == last_two_subjects)
+# 	except:
+# 		return False
 
-def subject_selector():
-	subject = suggest_subject()
-	while verify_subject(subject):
-		subject = suggest_subject()
-	return(subject)
+# def subject_selector():
+# 	subject = suggest_subject()
+# 	while verify_subject(subject):
+# 		subject = suggest_subject()
+# 	return(subject)
 
