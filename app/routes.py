@@ -5,6 +5,7 @@ import random
 from app.models import Subject, Note, Answer, LearningSession
 from datetime import datetime
 from app.note_controller import note_controller, subject_selector
+from app.results_controller import results_controller
 
 @app.route('/')
 @app.route('/index')
@@ -27,7 +28,7 @@ def note():
 		session.subject.append(subject_selector())
 		db.session.commit()
 		print(session)
-		return note_controller()
+		return note_controller(learning_session_id = session.id)
 	
 
 @app.route('/_close_learning_session')
@@ -42,11 +43,15 @@ def _close_learning_session():
 def session_results():
 
 
-	return 'donezore'
+	return results_controller(request.args.get('learning_session_id'))
 
 @app.route('/test')
 def test_knowledge():
 	return(render_template('test_knowledge.html', title='Find out what you don\'t know here'))
+
+@app.route('/quiz')
+def quiz():
+	return(render_template('quiz.html'))
 
 @app.route('/settings', methods=['GET', 'POST'])
 def manage_settings():
@@ -81,24 +86,3 @@ def manage_settings():
 ###########################################
 #########  HELPER FUNCTIONS  ##############
 ###########################################
-
-# def suggest_subject():
-# 	all_subjects = Subject.query.all()
-# 	selection_idx = random.randint(0,len(all_subjects) - 1)
-# 	selected_subject = all_subjects[selection_idx]
-# 	return(selected_subject)
-
-# def verify_subject(subject):
-# 	try:
-# 		last_two_learning_sessions = LearningSession.query.all()[-2:]
-# 		last_two_subjects = [last_two_learning_sessions[0].subject.all()[0], last_two_learning_sessions[1].subject.all()[0]]
-# 		return([subject] * 2 == last_two_subjects)
-# 	except:
-# 		return False
-
-# def subject_selector():
-# 	subject = suggest_subject()
-# 	while verify_subject(subject):
-# 		subject = suggest_subject()
-# 	return(subject)
-

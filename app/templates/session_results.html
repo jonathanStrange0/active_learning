@@ -4,11 +4,14 @@
 {% block content %}
 
 <!-- fill out content soon -->
-<h1 align="center">Tell you what to learn</h1>
+<h1 align="center">Results for learning session # {{session.id}}</h1>
+<h1 align="center">Subject: {{session.subject.first().subject}}</h1>
+<h1 align="center">Number of notes taken: {{num_notes}}</h1>
+<h1 align="center">Session Duration: {{session_duration}}</h1>
   <p align="center">
-    <a class="btn btn-lg btn-default" id="learnWithNotesButton" href="{{url_for('note')}}">Take Notes</a>
+    <a class="btn btn-lg btn-default" id="quizButton" href="">Quiz</a>
   </p>
   <p align="center">
-    <a class="btn btn-lg btn-default" id="lazyLearnButton" href="{{url_for('test_knowledge')}}">No Notes for Me!</a>
+    <a class="btn btn-lg btn-default" id="noQuizButton" href="">No Quiz for Me!</a>
   </p>
 {% endblock %}

@@ -9,11 +9,7 @@ def note_controller(learning_session_id=None):
 
 	if learning_session_id:
 		session = LearningSession.query.filter_by(id = learning_session_id).first()
-	# else:
-	# 	session = LearningSession(start_time=datetime.now())
-	# 	session.subject.append(subject_selector())
-	# 	db.session.commit()
-	# 	print(session)
+
 	note_form = NoteForm()
 
 	if request.method == 'POST' and note_form.validate_on_submit():

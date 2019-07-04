@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+
+<!-- fill out content soon -->
+<h1 align="center">Quiz for learning session # </h1>
+<h1 align="center">Subject: </h1>
+<h1 align="center">Q: what is the average land speed of a swallow?</h1>
+<h2 align="center">A: African or European swallow?</h2>
+<h3 align="center">A: <input type="textarea" name="answer"></h3>
+  <p align="center">
+    <a class="btn btn-lg btn-default" id="quizButton" href="">Quiz</a>
+  </p>
+  <p align="center">
+    <button class="btn btn-lg btn-default" id="checkAnswerButton" href="">Check Answer</button>
+  </p>
+
+
+<script type=text/javascript> 
+  $(function() {
+    $('select[id="quizButton"]').on('click', function() { //when the line select field is changed:
+
+    });
+   });
+</script>
+
+
+
+{% endblock %}
