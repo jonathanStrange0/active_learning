@@ -8,10 +8,6 @@
       {% endif %}
 {% endblock %}
 
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-
 {% block navbar %}
   <nav class="navbar navbar-default">
     <div class="container">
@@ -33,6 +29,7 @@
 {% endblock %}
 
 {% block content %}
+
 </div>
   <div class="container">
     {% with messages = get_flashed_messages() %}
@@ -43,7 +40,9 @@
        
       {% endif %}
     {% endwith %}
-{% block app_content %}{% endblock %}
+{% block app_content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+{% endblock %}
   </div>
 {% endblock %}
 
