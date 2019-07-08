@@ -1,5 +1,5 @@
 from flask import render_template, url_for, redirect, request
-from app.models import Subject, Note, Answer, LearningSession
+from app.models import Subject, Note, Answer, LearningSession, Bin_1
 from datetime import datetime
 import random
 from app import db
@@ -15,8 +15,10 @@ def note_controller(learning_session_id=None):
 	if request.method == 'POST' and note_form.validate_on_submit():
 		note = Note(question = note_form.question_field.data)
 		ans = Answer(answer = note_form.answer_field.data)
+		bin1 = Bin_1()
 		note.answer.append(ans)
 		session.notes.append(note)
+		bin1.notes.append(note)
 		db.session.commit()
 		return(redirect(url_for('note', learning_session_id=session.id)))
 

@@ -6,6 +6,7 @@ from app.models import Subject, Note, Answer, LearningSession
 from datetime import datetime
 from app.note_controller import note_controller, subject_selector
 from app.results_controller import results_controller
+from app.quiz_controller import quiz_controller
 
 @app.route('/')
 @app.route('/index')
@@ -49,7 +50,9 @@ def test_knowledge():
 
 @app.route('/quiz')
 def quiz():
-	return(render_template('quiz.html'))
+	if request.args.get('learning_session_id'):
+		session = LearningSession.query.filter_by(id = request.args.get('learning_session_id')).first()
+	return(quiz_controller(learning_session_id = session.id))
 
 @app.route('/settings', methods=['GET', 'POST'])
 def manage_settings():

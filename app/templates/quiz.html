@@ -4,18 +4,21 @@
 {% block content %}
 
 <!-- fill out content soon -->
-<h1 align="center">Quiz for learning session # </h1>
-<h1 align="center">Subject: </h1>
+<h1 align="center">Quiz for learning session # {{session.id}}</h1>
+<h1 align="center">Subject: {{subject}}</h1>
 <h1 align="center">Q: what is the average land speed of a swallow?</h1>
 <h2 align="center" hidden="True" id='answer'>A: African or European swallow?</h2>
 <h3 align="center" >A: <input type="textarea" name="answer"></h3>
   <p align="center">
     <button class="btn btn-lg btn-default" id="checkAnswerButton" href="">Check Answer</button>
   </p>
+
 <div class="row" align="center">
 	<button class="btn btn-lg btn-danger" id="noButton" hidden="True">Wrong</button>
 	<button class="btn btn-lg btn-success" id="yesButton" hidden="True">Correct!</button>
 </div>
+
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
