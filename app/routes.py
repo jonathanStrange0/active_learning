@@ -41,8 +41,6 @@ def _close_learning_session():
 
 @app.route('/session_results')
 def session_results():
-
-
 	return results_controller(request.args.get('learning_session_id'))
 
 @app.route('/test')

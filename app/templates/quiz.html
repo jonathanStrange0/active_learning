@@ -12,14 +12,10 @@
   <p align="center">
     <button class="btn btn-lg btn-default" id="checkAnswerButton" href="">Check Answer</button>
   </p>
-  <div class="row" align="center">
-        <div class="col-md-4">
-        	<span>
-        	<button class="btn btn-lg btn-danger" id="noButton" hidden="True">Wrong</button>
-            <button class="btn btn-lg btn-success" id="yesButton" hidden="True">Correct!</button>
-            </span>
-        </div>
-    </div>
+<div class="row" align="center">
+	<button class="btn btn-lg btn-danger" id="noButton" hidden="True">Wrong</button>
+	<button class="btn btn-lg btn-success" id="yesButton" hidden="True">Correct!</button>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -33,9 +29,9 @@
 <script> 
 	$(document).ready(function(){
 		$("#checkAnswerButton").click(function(){
-			$("#answer").show();
-			$("#yesButton").show();
-			$("#noButton").show();
+			$("#answer").show(100);
+			$("#yesButton").show(100);
+			$("#noButton").show(100);
 		});
 	});
 </script>

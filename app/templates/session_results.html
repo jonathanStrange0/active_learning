@@ -9,7 +9,7 @@
 <h1 align="center">Number of notes taken: {{num_notes}}</h1>
 <h1 align="center">Session Duration: {{session_duration}}</h1>
   <p align="center">
-    <a class="btn btn-lg btn-default" id="quizButton" href="">Quiz</a>
+    <a class="btn btn-lg btn-default" id="quizButton" href="{{ url_for('quiz', learning_session_id = session.id) }}">Quiz</a>
   </p>
   <p align="center">
     <a class="btn btn-lg btn-default" id="noQuizButton" href="">No Quiz for Me!</a>
