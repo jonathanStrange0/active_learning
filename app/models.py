@@ -1,4 +1,6 @@
 from app import db
+from sqlalchemy.orm import relationship, backref
+from sqlalchemy import func
 
 class LearningSession(db.Model):
     __tablename__ = 'learning_session'
@@ -17,8 +19,10 @@ class Note(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     category = db.Column(db.String(64), unique = True)
     question = db.Column(db.String(128), index = True, unique = True)
-    
+    creataed_on = db.Column(db.DateTime(), default=func.now())
+
     answer = db.relationship('Answer', backref='note', lazy='dynamic')
+    subject = db.relationship('Subject', backref=backref('note', uselist=True, cascade='delete,all'))
 
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'))
     learning_session_id = db.Column(db.Integer, db.ForeignKey('learning_session.id'))
@@ -45,7 +49,7 @@ class Subject(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     subject = db.Column(db.String(64), unique = True)
 
-    note = db.relationship('Note', backref='subject', lazy='dynamic')
+    # note = db.relationship('Note', backref='subject', lazy='dynamic')
     learning_session_id = db.Column(db.Integer, db.ForeignKey('learning_session.id'))
 
     def __repr__(self):

@@ -18,6 +18,7 @@ def note_controller(learning_session_id=None):
 		bin1 = Bin_1()
 		note.answer.append(ans)
 		session.notes.append(note)
+		note.subject = session.subject.first()
 		bin1.notes.append(note)
 		db.session.commit()
 		return(redirect(url_for('note', learning_session_id=session.id)))
