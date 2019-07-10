@@ -10,6 +10,7 @@ class LearningSession(db.Model):
 
     subject = db.relationship('Subject', backref='learning_session', lazy='dynamic')
     notes = db.relationship('Note', backref='learning_session', lazy='dynamic')
+    quiz = db.relationship('Quiz', backref='learning_session', lazy='dynamic')
 
     def __repr__(self):
         return '<Learning Session: {}>'.format(self.id)
@@ -95,6 +96,8 @@ class Quiz(db.Model):
     __tablename__ = 'quiz'
     id = db.Column(db.Integer, primary_key = True)
     correct_answers = db.Column(db.Integer)
+
+    learning_session_id = db.Column(db.Integer, db.ForeignKey('learning_session.id'))
 
     def __repr__(self):
         return '<Quiz, Correct Answers: {}>'.format(self.correct_answers)

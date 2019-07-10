@@ -7,6 +7,8 @@ from datetime import datetime
 from app.note_controller import note_controller, subject_selector
 from app.results_controller import results_controller
 from app.quiz_controller import quiz_controller
+from app.quiz_results_controller import quiz_results_controller
+
 
 @app.route('/')
 @app.route('/index')

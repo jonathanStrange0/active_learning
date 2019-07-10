@@ -15,8 +15,8 @@
 
 {% if last_question%}
 <div class="row" align="center">
-	<a class="btn btn-lg btn-danger" id="noButton" hidden="True">Wrong</a>
-	<a class="btn btn-lg btn-success" id="yesButton" hidden="True">Correct!</a>
+	<a class="btn btn-lg btn-danger" id="noButton" hidden="True"href="{{url_for('quiz_results', learning_session_id = learning_session.id )}}">Wrong</a>
+	<a class="btn btn-lg btn-success" id="yesButton" hidden="True"href="{{url_for('quiz_results', learning_session_id = learning_session.id )}}">Correct!</a>
 </div>
 {% else %}
 <div class="row" align="center">
