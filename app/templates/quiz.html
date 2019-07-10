@@ -4,27 +4,20 @@
 {% block content %}
 
 <!-- fill out content soon -->
-<h1 align="center">Quiz for learning session # {{learning_session.id}}</h1>
-<h1 align="center">Subject: {{subject.subject}}</h1>
-<h1 align="center">Q: what is the average land speed of a swallow?</h1>
-<h2 align="center" hidden="True" id='answer'>A: African or European swallow?</h2>
+<h1 align="center">Quiz for learning session # {{ learning_session.id }}</h1>
+<h1 align="center">Subject: {{ subject.subject }}</h1>
+<h1 align="center">Q: {{ question.question }}?</h1>
+<h2 align="center" hidden="True" id='answer'>A: {{ question.answer.first() }}?</h2>
 <h3 align="center" >A: <input type="textarea" name="answer"></h3>
   <p align="center">
     <button class="btn btn-lg btn-default" id="checkAnswerButton" href="">Check Answer</button>
   </p>
 
-{% if last_question%}
-<div class="row" align="center">
-	<a class="btn btn-lg btn-danger" id="noButton" hidden="True"href="{{url_for('quiz_results', learning_session_id = learning_session.id )}}">Wrong</a>
-	<a class="btn btn-lg btn-success" id="yesButton" hidden="True"href="{{url_for('quiz_results', learning_session_id = learning_session.id )}}">Correct!</a>
-</div>
-{% else %}
+
 <div class="row" align="center">
 	<button class="btn btn-lg btn-danger" id="noButton" hidden="True">Wrong</button>
 	<button class="btn btn-lg btn-success" id="yesButton" hidden="True">Correct!</button>
 </div>
-{% endif %}
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -32,7 +25,7 @@
 	$(function(){
 			$("#yesButton").hide();
 			$("#noButton").hide();
-		});
+	});
 </script>
 
 <script> 
@@ -45,6 +38,48 @@
 	});
 </script>
 
+<script> 
+	$(function(){
+		$("#yesButton").click(function(){
+		  	$.getJSON('/_correct_quiz_answer', {
+		  		// pass that value to python function in _correct_quiz_answer
+      		  {%if last_question%}
+				last_question:'{{ last_question }}',
+			  {%else%}
+			  	last_question:'',
+		  	  {%endif%}
+          		question_id: '{{ question.id }}',
+          		session_id: '{{ learning_session.id }}'
+
+     		},
+     		function(data){
+     			var url = data.result;
+     			$(location).attr('href', url);
+     		});
+		});
+	});
+</script>
+<script> 
+	$(function(){
+		$('button[id="noButton"]').click(function(){
+		  	$.getJSON('/_correct_quiz_answer', {
+		  		// pass that value to python function in _correct_quiz_answer
+      		  {%if last_question%}
+				last_question:'{{ last_question }}',
+			  {%else%}
+			  	last_question:'',
+		  	  {%endif%}
+          		question_id: '{{ question.id }}',
+          		session_id: '{{ learning_session.id }}'
+
+     		},
+     		function(data){
+     			var url = data.result;
+     			$(location).attr('href', url);
+     		});
+		});
+	});
+</script>
 
 
 {% endblock %}

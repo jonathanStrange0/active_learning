@@ -12,7 +12,7 @@ def quiz_controller(learning_session_id=None):
 	global quiz_or_test_list
 	if len(quiz_or_test_list):
 		current_question = quiz_or_test_list.pop()
-		if not len(quiz_or_test_list):
+		if len(quiz_or_test_list) == 0:
 			# this is the last question of the quiz
 			last_question = True
 	elif not last_question:
@@ -21,7 +21,7 @@ def quiz_controller(learning_session_id=None):
 															join(Note.bin_1).\
 															filter(Note.subject == subject).all(), k=5)
 		current_question = quiz_or_test_list.pop()
-	print(current_question)
+	print(current_question, last_question)
 	return(render_template('quiz.html', learning_session=learning_session,\
 										 subject=subject, \
 										 question = current_question, \
