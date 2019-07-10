@@ -90,3 +90,11 @@ class Bin_4(db.Model):
 
     def __repr__(self):
         return '<Bin 4, count: {}>'.format(self.notes.count())
+
+class Quiz(db.Model):
+    __tablename__ = 'quiz'
+    id = db.Column(db.Integer, primary_key = True)
+    correct_answers = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<Quiz, Correct Answers: {}>'.format(self.correct_answers)

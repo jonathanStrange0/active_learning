@@ -56,6 +56,12 @@ def quiz():
 		session = LearningSession.query.filter_by(id = request.args.get('learning_session_id')).first()
 	return(quiz_controller(learning_session_id = session.id))
 
+@app.route('/quiz_results/<learning_session_id>')
+def quiz_results(learning_session_id):
+
+	return(quiz_results_controller(learning_session_id))
+
+
 @app.route('/settings', methods=['GET', 'POST'])
 def manage_settings():
 	subject_form = AddSubjectForm()

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+
+<!-- fill out content soon -->
+<h1 align="center">Results for quiz on learning session # {{session.id}}</h1>
+<h1 align="center">Subject: {{session.subject.first().subject}}</h1>
+<h1 align="center">Number of Correct Answers: {{num_notes}}</h1>
+  <p align="center">
+    <a class="btn btn-lg btn-default" id="quizButton" href="{{ url_for('index') }}">Home</a>
+  </p>
+
+{% endblock %}
