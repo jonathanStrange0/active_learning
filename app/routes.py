@@ -1,5 +1,5 @@
 from app import app, db
-from flask import render_template, url_for, redirect, request, jsonify
+from flask import render_template, url_for, redirect, request
 from app.forms import AddSubjectForm, RemoveSubjectForm, NoteForm
 import random
 from app.models import Subject, Note, Answer, LearningSession
@@ -7,7 +7,7 @@ from datetime import datetime
 from app.note_controller import note_controller, subject_selector
 from app.results_controller import results_controller
 from app.quiz_controller import quiz_controller
-from app.quiz_results_controller import quiz_results_controller
+from app.quiz_results_controller import quiz_results_controller, record_quiz_answer
 
 
 @app.route('/')
@@ -65,39 +65,41 @@ def quiz_results(learning_session_id):
 
 @app.route('/_correct_quiz_answer')
 def correct_quiz_answer():
-	last_question = request.args.get('last_question', type=bool)
-	# last_question = bool(last_question)
-	print(request.args.get('last_question', type=bool))
-	question_id = request.args.get('question_id', type=int)
-	session_id = request.args.get('session_id', type=int)
-	note =  Note.query.filter_by(id=question_id).first()
+	# last_question = request.args.get('last_question', type=bool)
+	# # last_question = bool(last_question)
+	# print(request.args.get('last_question', type=bool))
+	# question_id = request.args.get('question_id', type=int)
+	# session_id = request.args.get('session_id', type=int)
+	# note =  Note.query.filter_by(id=question_id).first()
 
-	if last_question:
-		print('last question = ',last_question)
-		# return(redirect(url_for('quiz_results', learning_session_id = session_id)))
-		return jsonify(result=url_for('quiz_results', learning_session_id = session_id))
-	else:
-		print('last question = False',last_question)
-		# return(redirect(url_for('quiz', learning_session_id = session_id)))
-		return jsonify(result=url_for('quiz', learning_session_id = session_id))
+	# if last_question:
+	# 	print('last question = ',last_question)
+	# 	# return(redirect(url_for('quiz_results', learning_session_id = session_id)))
+	# 	return jsonify(result=url_for('quiz_results', learning_session_id = session_id))
+	# else:
+	# 	print('last question = False',last_question)
+	# 	# return(redirect(url_for('quiz', learning_session_id = session_id)))
+	# 	return jsonify(result=url_for('quiz', learning_session_id = session_id))
 
-	
+	return(record_quiz_answer(True))
 
 @app.route('/_incorrect_quiz_answer')
 def incorrect_quiz_answer():
-	last_question = request.args.get('last_question', 0, type=str)
-	last_question = bool(last_question)
-	print('request data: ', request.args)
-	question_id = request.args.get('question_id', 0, type=int)
-	session_id = request.args.get('session_id', 0, type=int)
-	note =  Note.query.filter_by(id=question_id).first()
+	# last_question = request.args.get('last_question', 0, type=str)
+	# last_question = bool(last_question)
+	# print('request data: ', request.args)
+	# question_id = request.args.get('question_id', 0, type=int)
+	# session_id = request.args.get('session_id', 0, type=int)
+	# note =  Note.query.filter_by(id=question_id).first()
 
-	if last_question:
-		print('last question = True')
-		return(quiz_results_controller(session_id))
-	else:
-		print('last question = False')
-		return(quiz_controller(session_id = session_id))
+	# if last_question:
+	# 	print('last question = True')
+	# 	return(quiz_results_controller(session_id))
+	# else:
+	# 	print('last question = False')
+	# 	return(quiz_controller(session_id = session_id))
+
+	return(record_quiz_answer(True))
 
 
 

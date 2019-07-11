@@ -31,6 +31,7 @@ class Note(db.Model):
     bin_2_id = db.Column(db.Integer, db.ForeignKey('bin_2.id'))
     bin_3_id = db.Column(db.Integer, db.ForeignKey('bin_3.id'))
     bin_4_id = db.Column(db.Integer, db.ForeignKey('bin_4.id'))
+    bin_id = db.Column(db.Integer, db.ForeignKey('bin.id'))
 
     def __repr__(self):
         return '<Q: {}>'.format(self.question)
@@ -56,6 +57,15 @@ class Subject(db.Model):
     def __repr__(self):
         return '<Subject: {}>'.format(self.subject)
 
+class Bin(db.Model):
+    __tablename__ = 'bin'
+    id = db.Column(db.Integer, primary_key = True)
+    bin_name = db.Column(db.String(64), index=True, unique=True)
+    notes = db.relationship('Note', backref='bin', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Bin: {}>'.format(self.bin_name)
+        
 class Bin_1(db.Model):
     __tablename__ = 'bin_1'
     id = db.Column(db.Integer, primary_key = True)

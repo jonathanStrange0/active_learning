@@ -10,4 +10,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 bootstrap = Bootstrap(app)
 quiz_or_test_list = []
+
 from app import routes, models
+

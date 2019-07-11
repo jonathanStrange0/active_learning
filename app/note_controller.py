@@ -1,5 +1,5 @@
 from flask import render_template, url_for, redirect, request
-from app.models import Subject, Note, Answer, LearningSession, Bin_1
+from app.models import Subject, Note, Answer, LearningSession, Bin
 from datetime import datetime
 import random
 from app import db
@@ -19,7 +19,10 @@ def note_controller(learning_session_id=None):
 	if request.method == 'POST' and note_form.validate_on_submit():
 		note = Note(question = note_form.question_field.data)
 		ans = Answer(answer = note_form.answer_field.data)
-		bin1 = Bin_1()
+		if Bin.query.filter_by(bin_name = 'Bin 1').first():
+			bin1 = Bin.query.filter_by(bin_name = 'Bin 1').first()
+		else:
+			bin1 = Bin(bin_name = 'Bin 1')
 		note.answer.append(ans)
 		session.notes.append(note)
 		note.subject = session.subject.first()
