@@ -64,43 +64,7 @@ class Bin(db.Model):
     notes = db.relationship('Note', backref='bin', lazy='dynamic')
 
     def __repr__(self):
-        return '<Bin: {}>'.format(self.bin_name)
-        
-class Bin_1(db.Model):
-    __tablename__ = 'bin_1'
-    id = db.Column(db.Integer, primary_key = True)
-
-    notes = db.relationship('Note', backref='bin_1', lazy='dynamic')
-
-    def __repr__(self):
-        return '<Bin 1, count: {}>'.format(len(self.notes.all()))
-
-class Bin_2(db.Model):
-    __tablename__ = 'bin_2'
-    id = db.Column(db.Integer, primary_key = True)
-
-    notes = db.relationship('Note', backref='bin_2', lazy='dynamic')
-
-    def __repr__(self):
-        return '<Bin 2, count: {}>'.format(len(self.notes))
-
-class Bin_3(db.Model):
-    __tablename__ = 'bin_3'
-    id = db.Column(db.Integer, primary_key = True)
-
-    notes = db.relationship('Note', backref='bin_3', lazy='dynamic')
-
-    def __repr__(self):
-        return '<Bin 3, count: {}>'.format(len(self.notes))        
-
-class Bin_4(db.Model):
-    __tablename__ = 'bin_4'
-    id = db.Column(db.Integer, primary_key = True)
-
-    notes = db.relationship('Note', backref='bin_4', lazy='dynamic')
-
-    def __repr__(self):
-        return '<Bin 4, count: {}>'.format(self.notes.count())
+        return '<Bin: {}>'.format(self.bin_name)  
 
 class Quiz(db.Model):
     __tablename__ = 'quiz'

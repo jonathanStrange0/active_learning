@@ -18,15 +18,43 @@ def quiz_controller(learning_session_id=None):
 	elif not last_question:
 		# this query will get the notes of a particular subject in bin_1
 		bin1 = Bin.query.filter_by(bin_name = "Bin 1").first()
-		quiz_or_test_list = random.sample(db.session.query(Note).\
-															join(Note.bin).\
-															filter(Note.subject == subject, Note.bin == bin1).all(), k=5)
+		questions = db.session.query(Note).join(Note.bin).filter(Note.subject == subject, Note.bin == bin1).all()
+		if len(questions) >= 5: # Don't crash if there aren't 5 questions to ask...
+			quiz_or_test_list = random.sample(questions, k=5)
+		else:
+			quiz_or_test_list = random.sample(questions, k=len(questions))
+
 		current_question = quiz_or_test_list.pop()
 	print(current_question, last_question)
 	return(render_template('quiz.html', learning_session=learning_session,\
 										 subject=subject, \
 										 question = current_question, \
 										 last_question=last_question))
+
+
+def test_controller(bin_number=None):
+	global quiz_or_test_list
+	if len(quiz_or_test_list):
+		current_question = quiz_or_test_list.pop()
+		if len(quiz_or_test_list) == 0:
+			# this is the last question of the quiz
+			last_question = True
+	elif not last_question:
+		# this query will get the notes of a particular subject in bin_1
+		bin1 = Bin.query.filter_by(bin_name = "Bin 1").first()
+		questions = db.session.query(Note).join(Note.bin).filter(Note.subject == subject, Note.bin == bin1).all()
+		if len(questions) >= 5: # Don't crash if there aren't 5 questions to ask...
+			quiz_or_test_list = random.sample(questions, k=5)
+		else:
+			quiz_or_test_list = random.sample(questions, k=len(questions))
+
+		current_question = quiz_or_test_list.pop()
+	print(current_question, last_question)
+	return(render_template('quiz.html', learning_session=learning_session,\
+										 subject=subject, \
+										 question = current_question, \
+										 last_question=last_question))
+
 
 def record_quiz_answer(correct):
 	"""
