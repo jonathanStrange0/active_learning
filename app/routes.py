@@ -6,8 +6,8 @@ from app.models import Subject, Note, Answer, LearningSession
 from datetime import datetime
 from app.note_controller import note_controller, subject_selector
 from app.results_controller import results_controller
-from app.quiz_controller import quiz_controller
-from app.quiz_results_controller import quiz_results_controller, record_quiz_answer
+from app.quiz_controller import quiz_controller, record_quiz_answer
+from app.quiz_results_controller import quiz_results_controller
 
 
 @app.route('/')
@@ -99,7 +99,7 @@ def incorrect_quiz_answer():
 	# 	print('last question = False')
 	# 	return(quiz_controller(session_id = session_id))
 
-	return(record_quiz_answer(True))
+	return(record_quiz_answer(False))
 
 
 
