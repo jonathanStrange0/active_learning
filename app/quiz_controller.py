@@ -6,15 +6,18 @@ import random, re
 from app import db, quiz_or_test_list
 
 def quiz_controller(learning_session_id=None, quiz_id = None):
-	if quiz_id is not None:
-		print('quiz id is not none?')
-		quiz = Quiz.query.filter_by(id = quiz_id)
-	else:
-		quiz = Quiz(correct_answers = 0)
-		db.session.commit()
-	print(quiz, quiz.id)
 	learning_session = LearningSession.query.filter_by(id = learning_session_id).first()
 	subject = learning_session.subject.first()
+
+	if quiz_id:
+		print('quiz id is not none?')
+		quiz = Quiz.query.filter_by(id = quiz_id).first()
+	else:
+		quiz = Quiz(correct_answers = 0)
+	learning_session.quiz.append(quiz)
+	db.session.commit()
+	print(quiz, quiz.id)
+
 	last_question = False
 	global quiz_or_test_list
 	if len(quiz_or_test_list):
@@ -30,7 +33,7 @@ def quiz_controller(learning_session_id=None, quiz_id = None):
 			quiz_or_test_list = random.sample(questions, k=5)
 		else:
 			quiz_or_test_list = random.sample(questions, k=len(questions))
-
+		print(quiz_or_test_list)
 		current_question = quiz_or_test_list.pop()
 	print(current_question, last_question)
 	return(render_template('quiz.html', learning_session=learning_session,\
@@ -84,6 +87,7 @@ def record_quiz_answer(correct):
 	note =  Note.query.filter_by(id=question_id).first()
 	bin_name = note.bin.bin_name
 	quiz = Quiz.query.filter_by(id = request.args.get('quiz_id', type=int)).first()
+	print('From record quiz answer: ',quiz, quiz.id)
 	if correct:
 		# save new answer to answers for this note
 		# move question to next bin up
@@ -97,10 +101,10 @@ def record_quiz_answer(correct):
 
 	if last_question:
 		# print('last question = ',last_question)
-		return jsonify(result=url_for('quiz_results', learning_session_id = session_id, quiz = quiz))
+		return jsonify(result=url_for('quiz_results', learning_session_id = session_id, quiz_id = quiz.id))
 	else:
 		# print('last question = False',last_question)
-		return jsonify(result=url_for('quiz', learning_session_id = session_id, quiz = quiz))
+		return jsonify(result=url_for('quiz', learning_session_id = session_id, quiz_id = quiz.id))
 
 def record_test_answer(correct, test):
 	"""

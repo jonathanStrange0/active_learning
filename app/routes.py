@@ -2,7 +2,7 @@ from app import app, db
 from flask import render_template, url_for, redirect, request
 from app.forms import AddSubjectForm, RemoveSubjectForm, NoteForm
 import random
-from app.models import Subject, Note, Answer, LearningSession
+from app.models import Subject, Note, Answer, LearningSession, Quiz
 from datetime import datetime
 from app.note_controller import note_controller, subject_selector
 from app.results_controller import results_controller
@@ -56,7 +56,12 @@ def test_knowledge():
 def quiz():
 	if request.args.get('learning_session_id'):
 		session = LearningSession.query.filter_by(id = request.args.get('learning_session_id')).first()
-	return(quiz_controller(learning_session_id = session.id))
+		
+		if request.args.get('quiz_id'):
+			quiz = Quiz.query.filter_by(id = request.args.get('quiz_id')).first()
+			return(quiz_controller(learning_session_id = session.id, quiz_id = quiz.id))
+		else:
+			return(quiz_controller(learning_session_id = session.id))
 
 @app.route('/quiz_results/<learning_session_id>')
 def quiz_results(learning_session_id):
