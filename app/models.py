@@ -27,10 +27,7 @@ class Note(db.Model):
 
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'))
     learning_session_id = db.Column(db.Integer, db.ForeignKey('learning_session.id'))
-    bin_1_id = db.Column(db.Integer, db.ForeignKey('bin_1.id'))
-    bin_2_id = db.Column(db.Integer, db.ForeignKey('bin_2.id'))
-    bin_3_id = db.Column(db.Integer, db.ForeignKey('bin_3.id'))
-    bin_4_id = db.Column(db.Integer, db.ForeignKey('bin_4.id'))
+
     bin_id = db.Column(db.Integer, db.ForeignKey('bin.id'))
 
     def __repr__(self):
@@ -63,6 +60,8 @@ class Bin(db.Model):
     bin_name = db.Column(db.String(64), index=True, unique=True)
     notes = db.relationship('Note', backref='bin', lazy='dynamic')
 
+    test = db.relationship('Test', backref='bin', lazy='dynamic')
+
     def __repr__(self):
         return '<Bin: {}>'.format(self.bin_name)  
 
@@ -72,6 +71,16 @@ class Quiz(db.Model):
     correct_answers = db.Column(db.Integer)
 
     learning_session_id = db.Column(db.Integer, db.ForeignKey('learning_session.id'))
+
+    def __repr__(self):
+        return '<Quiz, Correct Answers: {}>'.format(self.correct_answers)
+
+class Test(db.Model):
+    __tablename__ = 'test'
+    id = db.Column(db.Integer, primary_key = True)
+    correct_answers = db.Column(db.Integer)
+
+    bin_id = db.Column(db.Integer, db.ForeignKey('bin.id'))
 
     def __repr__(self):
         return '<Quiz, Correct Answers: {}>'.format(self.correct_answers)

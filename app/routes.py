@@ -6,7 +6,7 @@ from app.models import Subject, Note, Answer, LearningSession
 from datetime import datetime
 from app.note_controller import note_controller, subject_selector
 from app.results_controller import results_controller
-from app.quiz_controller import quiz_controller, record_quiz_answer
+from app.quiz_controller import quiz_controller, record_quiz_answer, test_controller, record_test_answer
 from app.quiz_results_controller import quiz_results_controller
 
 
@@ -48,7 +48,7 @@ def _close_learning_session():
 def session_results():
 	return results_controller(request.args.get('learning_session_id'))
 
-@app.route('/test')
+@app.route('/test_selector')
 def test_knowledge():
 	return(render_template('test_knowledge.html', title='Find out what you don\'t know here'))
 
@@ -65,43 +65,26 @@ def quiz_results(learning_session_id):
 
 @app.route('/_correct_quiz_answer')
 def correct_quiz_answer():
-	# last_question = request.args.get('last_question', type=bool)
-	# # last_question = bool(last_question)
-	# print(request.args.get('last_question', type=bool))
-	# question_id = request.args.get('question_id', type=int)
-	# session_id = request.args.get('session_id', type=int)
-	# note =  Note.query.filter_by(id=question_id).first()
-
-	# if last_question:
-	# 	print('last question = ',last_question)
-	# 	# return(redirect(url_for('quiz_results', learning_session_id = session_id)))
-	# 	return jsonify(result=url_for('quiz_results', learning_session_id = session_id))
-	# else:
-	# 	print('last question = False',last_question)
-	# 	# return(redirect(url_for('quiz', learning_session_id = session_id)))
-	# 	return jsonify(result=url_for('quiz', learning_session_id = session_id))
 
 	return(record_quiz_answer(True))
 
 @app.route('/_incorrect_quiz_answer')
 def incorrect_quiz_answer():
-	# last_question = request.args.get('last_question', 0, type=str)
-	# last_question = bool(last_question)
-	# print('request data: ', request.args)
-	# question_id = request.args.get('question_id', 0, type=int)
-	# session_id = request.args.get('session_id', 0, type=int)
-	# note =  Note.query.filter_by(id=question_id).first()
 
-	# if last_question:
-	# 	print('last question = True')
-	# 	return(quiz_results_controller(session_id))
-	# else:
-	# 	print('last question = False')
-	# 	return(quiz_controller(session_id = session_id))
 
 	return(record_quiz_answer(False))
 
+@app.route('/test')
+def test():
+	if request.args.get('bin_id'):
+		if request.args.get('test_id'):
+			return(test_controller(bin_number = request.args.get('bin_number'), \
+									test_id = request.args.get('test_id') ))
+		else:
+			return(test_controller(bin_number = request.args.get('bin_number')))
 
+	# else:
+	# 	return(redirect(url_for('test')))
 
 @app.route('/settings', methods=['GET', 'POST'])
 def manage_settings():
