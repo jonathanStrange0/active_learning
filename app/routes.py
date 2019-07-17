@@ -83,13 +83,29 @@ def incorrect_quiz_answer():
 def test():
 	if request.args.get('bin_number'):
 		if request.args.get('test_id'):
+			print('bin number ', request.args.get('bin_number'))
+			print('test_id ', request.args.get('test_id'))
 			return(test_controller(bin_number = request.args.get('bin_number'), \
 									test_id = request.args.get('test_id') ))
 		else:
+			print('bin number ', request.args.get('bin_number'))
+			print('test_id ', request.args.get('test_id'))
 			return(test_controller(bin_number = request.args.get('bin_number')))
 
 	# else:
 	# 	return(redirect(url_for('test')))
+
+@app.route('/_correct_test_answer')
+def correct_test_answer():
+
+	return(record_test_answer(True))
+
+@app.route('/_incorrect_test_answer')
+def incorrect_test_answer():
+
+
+	return(record_test_answer(False))
+
 
 @app.route('/settings', methods=['GET', 'POST'])
 def manage_settings():

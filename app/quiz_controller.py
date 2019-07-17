@@ -45,11 +45,14 @@ def quiz_controller(learning_session_id=None, quiz_id = None):
 
 def test_controller(bin_number=1, test_id=None):
 	if test_id:
-		test = Test.query.filter_by(id = test_id)
+		print('quiz id is not none?')
+		test = Test.query.filter_by(id = test_id).first()
 	else:
-		test = Test()
+		test = Test(correct_answers = 0)
 	fc_bin = Bin.query.filter_by(bin_name = 'Bin ' + str(bin_number)).first()
 	print(fc_bin)
+	fc_bin.test.append(test)
+	db.session.commit()
 	last_question = False
 	global quiz_or_test_list
 	if len(quiz_or_test_list):
@@ -106,7 +109,7 @@ def record_quiz_answer(correct):
 		# print('last question = False',last_question)
 		return jsonify(result=url_for('quiz', learning_session_id = session_id, quiz_id = quiz.id))
 
-def record_test_answer(correct, test):
+def record_test_answer(correct):
 	"""
 		if the test question is answered correctly, move it into the next bin up
 
@@ -119,7 +122,8 @@ def record_test_answer(correct, test):
 	question_id = request.args.get('question_id', type=int)
 	note =  Note.query.filter_by(id=question_id).first()
 	fc_bin = note.bin
-
+	test = Test.query.filter_by(id = request.args.get('test_id', type=int)).first()
+	print('From record test answer: ',test, test.id)
 	if correct:
 		# save new answer to answers for this note
 		# move question to next bin up

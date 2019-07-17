@@ -83,4 +83,4 @@ class Test(db.Model):
     bin_id = db.Column(db.Integer, db.ForeignKey('bin.id'))
 
     def __repr__(self):
-        return '<Quiz, Correct Answers: {}>'.format(self.correct_answers)
+        return '<Test, Correct Answers: {}>'.format(self.correct_answers)
