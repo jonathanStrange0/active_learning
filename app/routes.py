@@ -81,7 +81,7 @@ def incorrect_quiz_answer():
 
 @app.route('/test')
 def test():
-	if request.args.get('bin_id'):
+	if request.args.get('bin_number'):
 		if request.args.get('test_id'):
 			return(test_controller(bin_number = request.args.get('bin_number'), \
 									test_id = request.args.get('test_id') ))
