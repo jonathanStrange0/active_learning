@@ -43,16 +43,17 @@ def quiz_controller(learning_session_id=None, quiz_id = None):
 										 quiz = quiz))
 
 
-def test_controller(bin_number=1, test_id=None):
+def test_controller(bin_name='Bin 1', test_id=None):
 	if test_id:
 		print('quiz id is not none?')
 		test = Test.query.filter_by(id = test_id).first()
 	else:
 		test = Test(correct_answers = 0)
-	fc_bin = Bin.query.filter_by(bin_name = 'Bin ' + str(bin_number)).first()
+	fc_bin = Bin.query.filter_by(bin_name = bin_name).first()# 'Bin ' + str(bin_number)).first()
 	print(fc_bin)
 	fc_bin.test.append(test)
 	db.session.commit()
+
 	last_question = False
 	global quiz_or_test_list
 	if len(quiz_or_test_list):
@@ -66,10 +67,11 @@ def test_controller(bin_number=1, test_id=None):
 		if len(questions):
 			quiz_or_test_list = random.sample(questions, k=len(questions))
 		current_question = quiz_or_test_list.pop()
-
-	print(current_question, last_question)
+	subject = Subject.query.filter_by(id = current_question.subject_id)
+	print(current_question, last_question, current_question.subject_id)
 	return(render_template('test.html', bin=fc_bin,\
 										 question = current_question, \
+										 subject=subject, \
 										 last_question=last_question, \
 										 test = test))
 
@@ -136,10 +138,10 @@ def record_test_answer(correct):
 
 	if last_question:
 		# print('last question = ',last_question)
-		return jsonify(result=url_for('test_results', bin_id = fc_bin.id, test_id = test.id))
+		return jsonify(result=url_for('test_results', bin_name = fc_bin.bin_name, test_id = test.id))
 	else:
 		# print('last question = False',last_question)
-		return jsonify(result=url_for('test', bin_id = fc_bin.id, test_id = test.id))
+		return jsonify(result=url_for('test', bin_name = fc_bin.bin_name, test_id = test.id))
 
 
 def move_note_bin(note, up=True):

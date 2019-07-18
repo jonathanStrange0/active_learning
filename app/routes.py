@@ -55,13 +55,14 @@ def test_knowledge():
 @app.route('/quiz')
 def quiz():
 	if request.args.get('learning_session_id'):
-		session = LearningSession.query.filter_by(id = request.args.get('learning_session_id')).first()
-		
+		# session = LearningSession.query.filter_by(id = request.args.get('learning_session_id')).first()
+		learning_session_id = request.args.get('learning_session_id')
 		if request.args.get('quiz_id'):
-			quiz = Quiz.query.filter_by(id = request.args.get('quiz_id')).first()
-			return(quiz_controller(learning_session_id = session.id, quiz_id = quiz.id))
+			# quiz = Quiz.query.filter_by(id = request.args.get('quiz_id')).first()
+			quiz_id = request.args.get('quiz_id')
+			return(quiz_controller(learning_session_id = learning_session_id, quiz_id = quiz_id))
 		else:
-			return(quiz_controller(learning_session_id = session.id))
+			return(quiz_controller(learning_session_id = learning_session_id))
 
 @app.route('/quiz_results/<learning_session_id>')
 def quiz_results(learning_session_id):
@@ -75,22 +76,21 @@ def correct_quiz_answer():
 
 @app.route('/_incorrect_quiz_answer')
 def incorrect_quiz_answer():
-
-
+	
 	return(record_quiz_answer(False))
 
 @app.route('/test')
 def test():
-	if request.args.get('bin_number'):
+	if request.args.get('bin_name'):
 		if request.args.get('test_id'):
-			print('bin number ', request.args.get('bin_number'))
+			print('bin name ', request.args.get('bin_name'))
 			print('test_id ', request.args.get('test_id'))
-			return(test_controller(bin_number = request.args.get('bin_number'), \
+			return(test_controller(bin_name = request.args.get('bin_name'), \
 									test_id = request.args.get('test_id') ))
 		else:
-			print('bin number ', request.args.get('bin_number'))
+			print('bin_name ', request.args.get('bin_name'))
 			print('test_id ', request.args.get('test_id'))
-			return(test_controller(bin_number = request.args.get('bin_number')))
+			return(test_controller(bin_name = request.args.get('bin_name')))
 
 	# else:
 	# 	return(redirect(url_for('test')))
