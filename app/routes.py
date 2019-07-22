@@ -8,6 +8,7 @@ from app.note_controller import note_controller, subject_selector
 from app.results_controller import results_controller
 from app.quiz_controller import quiz_controller, record_quiz_answer, test_controller, record_test_answer
 from app.quiz_results_controller import quiz_results_controller
+from app.test_results_controller import test_results_controller
 
 
 @app.route('/')
@@ -76,7 +77,7 @@ def correct_quiz_answer():
 
 @app.route('/_incorrect_quiz_answer')
 def incorrect_quiz_answer():
-	
+
 	return(record_quiz_answer(False))
 
 @app.route('/test')
@@ -103,9 +104,12 @@ def correct_test_answer():
 @app.route('/_incorrect_test_answer')
 def incorrect_test_answer():
 
-
 	return(record_test_answer(False))
 
+@app.route('/test_results')
+def test_results():
+	test_id = request.args.get('test_id')
+	return(test_results_controller(test_id))
 
 @app.route('/settings', methods=['GET', 'POST'])
 def manage_settings():
