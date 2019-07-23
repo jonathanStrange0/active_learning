@@ -5,6 +5,23 @@
 <h1 align="center">Test yourself here</h1>
     
 <p align="center">
-    <a class="btn btn-lg btn-default" id="testButton" href="{{url_for('test', bin_name = 'Bin 1')}}">Study</a>
-  </p>
+	{% if bin1.notes %}
+    	<a class="btn btn-lg btn-default" id="testButton" href="{{url_for('test', bin_name = 'Bin 1')}}">Study Flashcard Bin 1</a>
+   	{% endif %}
+</p>
+<p align="center">
+    {% if bin2.notes %}
+    	<a class="btn btn-lg btn-default" id="testButton" href="{{url_for('test', bin_name = 'Bin 2')}}">Study Flashcard Bin 2</a>
+    {% endif %}
+</p>
+<p align="center">
+    {% if bin3.notes %}
+    	<a class="btn btn-lg btn-default" id="testButton" href="{{url_for('test', bin_name = 'Bin 3')}}">Study Flashcard Bin 3</a>
+    {% endif %}
+</p>
+<p align="center">
+    {% if bin4.notes %}
+    	<a class="btn btn-lg btn-default" id="testButton" href="{{url_for('test', bin_name = 'Bin 4')}}">Study Flashcard Bin 4</a>
+    {% endif %}
+</p>
 {% endblock %}

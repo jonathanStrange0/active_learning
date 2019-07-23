@@ -2,7 +2,7 @@ from app import app, db
 from flask import render_template, url_for, redirect, request
 from app.forms import AddSubjectForm, RemoveSubjectForm, NoteForm
 import random
-from app.models import Subject, Note, Answer, LearningSession, Quiz
+from app.models import Subject, Note, Answer, LearningSession, Quiz, Bin
 from datetime import datetime
 from app.note_controller import note_controller, subject_selector
 from app.results_controller import results_controller
@@ -49,9 +49,6 @@ def _close_learning_session():
 def session_results():
 	return results_controller(request.args.get('learning_session_id'))
 
-@app.route('/test_selector')
-def test_knowledge():
-	return(render_template('test_knowledge.html', title='Find out what you don\'t know here'))
 
 @app.route('/quiz')
 def quiz():
@@ -79,6 +76,14 @@ def correct_quiz_answer():
 def incorrect_quiz_answer():
 
 	return(record_quiz_answer(False))
+
+@app.route('/test_selector')
+def test_knowledge():
+	bin1 = Bin.query.filter_by(bin_name = 'Bin 1').first()
+	bin2 = Bin.query.filter_by(bin_name = 'Bin 2').first()
+	bin3 = Bin.query.filter_by(bin_name = 'Bin 3').first()
+	bin4 = Bin.query.filter_by(bin_name = 'Bin 4').first()
+	return(render_template('test_knowledge.html', title='Find out what you don\'t know here', bin1=bin1, bin2=bin2, bin3=bin3, bin4=bin4))
 
 @app.route('/test')
 def test():

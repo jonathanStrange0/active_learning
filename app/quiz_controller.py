@@ -157,7 +157,7 @@ def move_note_bin(note, up=True):
 	bin_num = int(re.findall(r'(\d+)', bin_name)[0])
 
 	if up: 
-		if bin_num == 1:
+		if bin_name == 'Bin 1':
 			bin_1 = note.bin
 			bin_1.notes.remove(note)
 			bin_2 = Bin.query.filter_by(bin_name = 'Bin 2').first()
@@ -166,16 +166,16 @@ def move_note_bin(note, up=True):
 			else:
 				bin_2 = Bin(bin_name='Bin 2')
 				bin_2.notes.append(note)
-		elif bin_num == 2:
+		elif bin_name == 'Bin 2':
 			bin_2 = note.bin
 			bin_2.notes.remove(note)
-			bin_3 = Bin.query.filter_by(bin_name = 'Bin 2').first()
+			bin_3 = Bin.query.filter_by(bin_name = 'Bin 3').first()
 			if bin_3:
 				bin_3.notes.append(note)
 			else:
 				bin_3 = Bin(bin_name='Bin 3')
-				bin_3.append(note)
-		elif bin_num == 3:
+				bin_3.notes.append(note)
+		elif bin_name == 'Bin 3':
 			bin_3 = note.bin
 			bin_3.notes.remove(note)
 			bin_4 = Bin.query.filter_by(bin_name = 'Bin 4').first()
@@ -183,7 +183,7 @@ def move_note_bin(note, up=True):
 				bin_4.notes.append(note)
 			else:
 				bin_4 = Bin(bin_name='Bin 4')
-				bin_4.append(note)
+				bin_4.notes.append(note)
 	else:
 		any_bin = note.bin
 		any_bin.notes.remove(note)
