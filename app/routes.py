@@ -4,7 +4,7 @@ from app.forms import AddSubjectForm, RemoveSubjectForm, NoteForm
 import random
 from app.models import Subject, Note, Answer, LearningSession, Quiz, Bin
 from datetime import datetime
-from app.note_controller import note_controller, subject_selector
+from app.note_controller import note_controller, subject_selector, no_note_controller
 from app.results_controller import results_controller
 from app.quiz_controller import quiz_controller, record_quiz_answer, test_controller, record_test_answer
 from app.quiz_results_controller import quiz_results_controller
@@ -35,7 +35,10 @@ def note():
 		return note_controller()
 
 		# return note_controller(learning_session_id = session.id)
-	
+
+@app.route('/no_note_learning_session')
+def no_note_learning():
+	return(no_note_controller())
 
 @app.route('/_close_learning_session')
 def _close_learning_session():

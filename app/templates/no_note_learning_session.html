@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+
+<!-- fill out content soon -->
+<h1 align="center">Learning Session #: {{learning_session.id}}</h1>
+<h2 align="center">Subject: {{learning_session.subject.first().subject}}</h2>
+<h2 align="center">Start Time: {{learning_session.start_time.strftime('%H:%M')}}</h2>
+  <p align="center">
+    <a class="btn btn-lg btn-default" id="addNotesButton" href="{{url_for('note', learning_session_id = learning_session.id )}}">Take Notes</a>
+  </p>
+  <p align="center">
+    <a class="btn btn-lg btn-default" id="doneButton" href="{{url_for('_close_learning_session', learning_session_id = learning_session.id )}}">Done Learning</a>
+  </p>
+{% endblock %}
