@@ -8,7 +8,7 @@
 <h1 align="center">Subject: {{ subject.subject }}</h1>
 <h1 align="center">Q: {{ question.question }}?</h1>
 <h2 align="center" hidden="True" id='answer'>A: {{ question.answer.first() }}?</h2>
-<h3 align="center" >A: <input type="textarea" name="answer"></h3>
+<h3 align="center" >A: <input type="input" name="answer"></h3>
   <p align="center">
     <button class="btn btn-lg btn-default" id="checkAnswerButton" href="">Check Answer</button>
   </p>
@@ -50,8 +50,8 @@
 		  	  {%endif%}
           		question_id: '{{ question.id }}',
           		session_id: '{{ learning_session.id }}',
-          		quiz_id: '{{ quiz.id }}'
-
+          		quiz_id: '{{ quiz.id }}',
+          		answer: $('input[name="answer"]').val()
      		},
      		function(data){
      			var url = data.result;

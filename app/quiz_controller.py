@@ -89,6 +89,7 @@ def record_quiz_answer(correct):
 	# print(request.args.get('last_question', type=bool))
 	question_id = request.args.get('question_id', type=int)
 	session_id = request.args.get('session_id', type=int)
+	answer = request.args.get('answer', type=str)
 	note =  Note.query.filter_by(id=question_id).first()
 	bin_name = note.bin.bin_name
 	quiz = Quiz.query.filter_by(id = request.args.get('quiz_id', type=int)).first()
@@ -98,6 +99,8 @@ def record_quiz_answer(correct):
 		# move question to next bin up
 		move_note_bin(note, up=True)
 		quiz.correct_answers += 1
+		ans = Answer(answer = 'answer')
+		note.answer.append(answer)
 		print(quiz)
 		db.session.commit()
 	else:
@@ -123,6 +126,8 @@ def record_test_answer(correct):
 	last_question = request.args.get('last_question', type=bool)
 	question_id = request.args.get('question_id', type=int)
 	note =  Note.query.filter_by(id=question_id).first()
+	answer = request.args.get('answer', type=str)
+	print(answer)
 	fc_bin = note.bin
 	test = Test.query.filter_by(id = request.args.get('test_id', type=int)).first()
 	print('From record test answer: ',test, test.id)
@@ -131,6 +136,8 @@ def record_test_answer(correct):
 		# move question to next bin up
 		move_note_bin(note, up=True)
 		test.correct_answers += 1
+		ans = Answer(answer = 'answer')
+		note.answer.append(ans)
 		db.session.commit()
 	else:
 		# move question to bin 1
