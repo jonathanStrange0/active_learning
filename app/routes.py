@@ -117,7 +117,7 @@ def test_results():
 def manage_settings():
 	subject_form = AddSubjectForm()
 	remove_subject_form = RemoveSubjectForm()
-	remove_subject_form.subject_text.query = Subject.query.all()
+	remove_subject_form.subject.query = Subject.query.all()
 	# print(remove_subject_form.subject_text.data.id)
 	if request.method == 'POST' and subject_form.validate_on_submit():
 		db.session.add(Subject(subject = subject_form.subject_field.data))
@@ -130,7 +130,7 @@ def manage_settings():
 		return(redirect(url_for('manage_settings')))
 
 	if len(Subject.query.all()) > 0:
-		remove_subject_form.subject_text.query = Subject.query.all()
+		remove_subject_form.subject.query = Subject.query.all()
 		return(render_template('manage_settings.html', \
 			title='Make adjustements to your course', \
 			add_sub_form=subject_form, \

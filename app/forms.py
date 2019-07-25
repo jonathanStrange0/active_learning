@@ -11,7 +11,7 @@ class AddSubjectForm(FlaskForm):
 	subject_submit = SubmitField('Add Study Subject')
 
 class RemoveSubjectForm(FlaskForm):
-	subject_text = QuerySelectField(get_label='subject')
+	subject = QuerySelectField(get_label='subject')
 	subject_submit = SubmitField('Delete Study Subject')
 
 class NoteForm(FlaskForm):
