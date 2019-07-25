@@ -28,13 +28,7 @@ def note():
 		session = LearningSession.query.filter_by(id = request.args.get('learning_session_id')).first()
 		return note_controller(learning_session_id = request.args.get('learning_session_id'))
 	else:
-		# session = LearningSession(start_time=datetime.now())
-		# session.subject.append(subject_selector())
-		# db.session.commit()
-		# print(session)
 		return note_controller()
-
-		# return note_controller(learning_session_id = session.id)
 
 @app.route('/no_note_learning_session')
 def no_note_learning():

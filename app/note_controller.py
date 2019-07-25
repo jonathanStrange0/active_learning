@@ -7,6 +7,17 @@ from app.forms import NoteForm
 
 def note_controller(learning_session_id=None):
 
+	"""
+		handle the takinging and saving of notes that will later be used as questions on flash cards
+
+		if there is a learning session already started, and passed along, append that note to the
+		existing learning session
+
+		Otherwise, this is the first note in a learning session, and a new one should be created.
+
+		Return the template for creating notes.
+	"""
+
 	if learning_session_id is not None:
 		session = LearningSession.query.filter_by(id = learning_session_id).first()
 	else:
@@ -35,6 +46,15 @@ def note_controller(learning_session_id=None):
 	return(render_template('note.html', title='Add Note', note_form=note_form, session=session))
 
 def no_note_controller():
+
+	"""
+		Create a learning session and choose a subject to learn.
+
+		When there is a situation that does not require notes to be taken on a subject
+		this function starts a learning session and chooses a subject for the lazy learner
+
+	"""
+
 	session = LearningSession(start_time=datetime.now())
 	session.subject.append(subject_selector())
 	db.session.commit()
@@ -42,12 +62,22 @@ def no_note_controller():
 	return(render_template('no_note_learning_session.html', title='No Notes to Take Today :(', learning_session = session))
 
 def suggest_subject():
+	"""
+		Randomly select a subject out of all the subjects in the database
+
+		Return that subject
+	"""
 	all_subjects = Subject.query.all()
 	selection_idx = random.randint(0,len(all_subjects) - 1)
 	selected_subject = all_subjects[selection_idx]
 	return(selected_subject)
 
 def verify_subject(subject):
+	"""
+		Confirm that the last two learning sessions have not been this subject
+
+		Return true/false
+	"""
 	try:
 		last_two_learning_sessions = LearningSession.query.all()[-2:]
 		last_two_subjects = [last_two_learning_sessions[0].subject.all()[0], last_two_learning_sessions[1].subject.all()[0]]
@@ -56,6 +86,11 @@ def verify_subject(subject):
 		return False
 
 def subject_selector():
+	"""
+		Generate a subject that hasn't been studied more than twice in a row
+
+		Return that subject
+	"""
 	subject = suggest_subject()
 	while verify_subject(subject):
 		subject = suggest_subject()
